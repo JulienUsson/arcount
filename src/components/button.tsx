@@ -1,11 +1,11 @@
 import { styled } from 'nativewind'
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { Text, TouchableHighlight, TouchableOpacityProps, View } from 'react-native'
 
 interface Props extends TouchableOpacityProps {
   rootStyle?: TouchableOpacityProps['style']
   textStyle?: TouchableOpacityProps['style']
-  children: ReactNode
+  children: string
 }
 
 function Button({ rootStyle, textStyle, children, ...props }: Props) {
@@ -17,7 +17,7 @@ function Button({ rootStyle, textStyle, children, ...props }: Props) {
         style={rootStyle}
         className="h-full flex justify-center items-center rounded-full"
       >
-        <Text style={textStyle} className="text-xl font-medium">
+        <Text style={textStyle} className="text-4xl">
           {children}
         </Text>
       </TouchableHighlight>

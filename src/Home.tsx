@@ -1,8 +1,9 @@
-import Icon from '@expo/vector-icons/MaterialIcons'
 import React, { useMemo, useState } from 'react'
 import { Text, View } from 'react-native'
 
 import Button from './components/button'
+import IconButton from './components/icon-button'
+import Scores from './components/scores'
 
 export default function Home() {
   const [scores, setScores] = useState<number[]>([])
@@ -12,6 +13,10 @@ export default function Home() {
     return () => {
       setScores([...scores, value])
     }
+  }
+
+  function clear() {
+    setScores([])
   }
 
   function remove() {
@@ -24,25 +29,26 @@ export default function Home() {
 
   return (
     <View className="h-full">
-      <View className="flex-1">
-        <Text>{JSON.stringify(scores)}</Text>
-        <Text>{sum}</Text>
+      <View className="flex-1 relative">
+        <Scores>{scores}</Scores>
+        <View className="absolute bottom-4 right-4">
+          <Text className="text-right text-4xl text-gray-300 mb-2">{scores.length}</Text>
+          <Text className="text-right text-6xl text-gray-800">{sum}</Text>
+        </View>
       </View>
+      <View className="mx-4 mb-2 border-t border-gray-100" />
       <View className="flex flex-row">
-        <View className="w-1/2" />
-        <Button textStyle="text-black" onPress={remove}>
-          <Icon name="backspace" size={24} />
-        </Button>
-        <Button textStyle="text-black" onPress={done}>
-          <Icon name="done" size={24} />
-        </Button>
+        <View className="w-1/4" />
+        <IconButton name="clear" onPress={clear} />
+        <IconButton name="backspace" onPress={remove} />
+        <IconButton name="done" onPress={done} />
       </View>
       <View className="flex flex-row">
         <View className="w-1/4" />
         <Button textStyle="text-gray-400" onPress={add(1)}>
           1
         </Button>
-        <Button textStyle="text-black" onPress={add(4)}>
+        <Button textStyle="text-gray-800" onPress={add(4)}>
           4
         </Button>
         <Button textStyle="text-red-600" onPress={add(7)}>
@@ -50,10 +56,10 @@ export default function Home() {
         </Button>
       </View>
       <View className="flex flex-row">
-        <Button textStyle="text-gray-200" onPress={add(0)}>
-          <Icon name="close" size={24} />
+        <Button textStyle="text-gray-300" onPress={add(0)}>
+          X
         </Button>
-        <Button textStyle="text-black" onPress={add(3)}>
+        <Button textStyle="text-gray-800" onPress={add(3)}>
           3
         </Button>
         <Button textStyle="text-blue-500" onPress={add(6)}>
