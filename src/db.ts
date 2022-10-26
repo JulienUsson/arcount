@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 const KEY = '@scores'
 
@@ -18,12 +18,16 @@ export async function saveScoreHistory(scores: number[]) {
   AsyncStorage.setItem(KEY, JSON.stringify(data))
 }
 
-export function useScoreHistories() {
+export function useScoreHistories(): [ScoreHistory[], () => void] {
   const [scores, setScores] = useState<ScoreHistory[]>([])
 
   useEffect(() => {
     getScoreHistories().then((scores) => setScores(scores))
   }, [])
 
-  return scores
+  const refresh = useCallback(() => {
+    getScoreHistories().then((scores) => setScores(scores))
+  }, [])
+
+  return [scores, refresh]
 }
