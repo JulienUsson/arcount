@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Text, View } from 'react-native'
 
 interface Props {
   children: number[]
 }
 
-export default function Scores({ children: scores }: Props) {
+export default function Scores({ children: scoresProp }: Props) {
+  const scores = useMemo(() => [...scoresProp].sort((a, b) => a - b).reverse(), [scoresProp])
   return (
     <View className="flex-row m-3 flex-wrap">
       {scores.map((score, index) => {
