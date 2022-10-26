@@ -26,17 +26,29 @@ export default function ScoreCounter() {
         data={scores}
         estimatedItemSize={100}
         ItemSeparatorComponent={Separator}
+        ListEmptyComponent={Empty}
       />
     </View>
   )
 }
 
-function ScoreLine({ date, scores }: ScoreHistory) {
+function ScoreLine({ date, scores, average, sum }: ScoreHistory) {
   return (
     <View>
       <Text>{format(date, 'dd/MM/yyyy HH:mm')}</Text>
       <Scores>{scores}</Scores>
+      <Text>
+        {average.toFixed(1)} {sum}
+      </Text>
     </View>
+  )
+}
+
+function Empty() {
+  return (
+    <Text className="text-center text-gray-700">
+      Start your training now and come back later to see your scores !
+    </Text>
   )
 }
 

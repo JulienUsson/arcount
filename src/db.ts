@@ -6,6 +6,8 @@ const KEY = '@scores'
 export interface ScoreHistory {
   scores: number[]
   date: number
+  sum: number
+  average: number
 }
 
 export async function getScoreHistories(): Promise<ScoreHistory[]> {
@@ -14,7 +16,9 @@ export async function getScoreHistories(): Promise<ScoreHistory[]> {
 
 export async function saveScoreHistory(scores: number[]) {
   const data = await getScoreHistories()
-  data.unshift({ scores, date: Date.now() })
+  const sum = scores.reduce((acc, score) => acc + score, 0)
+  const average = sum / scores.length
+  data.unshift({ scores, date: Date.now(), average, sum })
   AsyncStorage.setItem(KEY, JSON.stringify(data))
 }
 
