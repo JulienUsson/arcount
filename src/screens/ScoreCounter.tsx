@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from 'react'
 import { Text, View } from 'react-native'
 
-import Button from './components/button'
-import IconButton from './components/icon-button'
-import Scores from './components/scores'
+import Button from '../components/button'
+import IconButton from '../components/icon-button'
+import Scores from '../components/scores'
+import { saveScoreHistory } from '../db'
 
-export default function Home() {
+export default function ScoreCounter() {
   const [scores, setScores] = useState<number[]>([])
   const sum = useMemo(() => scores.reduce((acc, score) => acc + score, 0), [scores])
 
@@ -23,8 +24,11 @@ export default function Home() {
     setScores(scores.filter((_, index) => index !== scores.length - 1))
   }
 
-  function done() {
-    setScores([])
+  async function done() {
+    if (scores.length > 0) {
+      await saveScoreHistory(scores)
+      setScores([])
+    }
   }
 
   return (
