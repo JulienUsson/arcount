@@ -1,10 +1,12 @@
 import { useIsFocused } from '@react-navigation/native'
+import { FlashList } from '@shopify/flash-list'
+import { format } from 'date-fns'
 import React, { useEffect } from 'react'
 import { Text, View } from 'react-native'
 
 import Scores from '../components/scores'
 
-import { useScoreHistories } from '../db'
+import { ScoreHistory, useScoreHistories } from '../db'
 
 export default function ScoreCounter() {
   const isFocused = useIsFocused()
@@ -15,13 +17,29 @@ export default function ScoreCounter() {
   }, [refresh, isFocused])
 
   return (
-    <View className="h-full">
-      {scores.map(({ date, scores }) => (
-        <View key={date}>
-          <Text>{date}</Text>
-          <Scores>{scores}</Scores>
-        </View>
-      ))}
+    <View style={{ flex: 1 }}>
+      <FlashList
+        renderItem={({ item }) => {
+          return <ScoreLine {...item} />
+        }}
+        keyExtractor={(item) => item.date.toString()}
+        data={scores}
+        estimatedItemSize={100}
+        ItemSeparatorComponent={Separator}
+      />
     </View>
   )
+}
+
+function ScoreLine({ date, scores }: ScoreHistory) {
+  return (
+    <View>
+      <Text>{format(date, 'dd/MM/yyyy HH:mm')}</Text>
+      <Scores>{scores}</Scores>
+    </View>
+  )
+}
+
+function Separator() {
+  return <View className="mx-4 my-1 border-t border-gray-100" />
 }

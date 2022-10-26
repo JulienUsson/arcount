@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 const KEY = '@scores'
 
-interface ScoreHistory {
+export interface ScoreHistory {
   scores: number[]
   date: number
 }
