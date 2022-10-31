@@ -10,7 +10,7 @@ export default function ScoreCounter() {
   const scores = useScoreStore((state) => state.scores)
 
   return (
-    <View style={{ flex: 1 }}>
+    <View className="flex-1 mt-2">
       <FlashList
         renderItem={({ item }) => {
           return <ScoreLine {...item} />
@@ -28,11 +28,16 @@ export default function ScoreCounter() {
 function ScoreLine({ date, points, average, sum }: Score) {
   return (
     <View>
-      <Text>{format(date, 'dd/MM/yyyy HH:mm')}</Text>
+      <Text className="text-center font-light">{format(date, 'dd/MM/yyyy - HH:mm')}</Text>
       <Points>{points}</Points>
-      <Text>
-        {average.toFixed(1)} {sum}
-      </Text>
+      <View className="flex-row justify-around">
+        <Text className="font-bold">
+          <Text className="font-light">AVG</Text> {average.toFixed(1)}
+        </Text>
+        <Text className="font-bold">
+          <Text className="font-light">SUM</Text> {sum}
+        </Text>
+      </View>
     </View>
   )
 }
