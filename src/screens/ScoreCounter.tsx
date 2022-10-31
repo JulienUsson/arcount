@@ -3,36 +3,37 @@ import { Text, View } from 'react-native'
 
 import Button from '../components/button'
 import IconButton from '../components/icon-button'
-import Scores from '../components/scores'
-import { saveScoreHistory } from '../db'
+import Points from '../components/points'
+import { useScoreStore } from '../stores/scoreStore'
 
 export default function ScoreCounter() {
-  const [scores, setScores] = useState<number[]>([])
-  const sum = useMemo(() => scores.reduce((acc, score) => acc + score, 0), [scores])
+  const addScore = useScoreStore((state) => state.add)
+  const [points, setPoints] = useState<number[]>([])
+  const sum = useMemo(() => points.reduce((acc, score) => acc + score, 0), [points])
 
   function add(value: number) {
     return () => {
-      setScores([...scores, value])
+      setPoints([...points, value])
     }
   }
 
   function remove() {
-    setScores(scores.filter((_, index) => index !== scores.length - 1))
+    setPoints(points.filter((_, index) => index !== points.length - 1))
   }
 
   async function done() {
-    if (scores.length > 0) {
-      await saveScoreHistory(scores)
-      setScores([])
+    if (points.length > 0) {
+      addScore(points)
+      setPoints([])
     }
   }
 
   return (
     <View className="h-full">
       <View className="flex-1 relative">
-        <Scores>{scores}</Scores>
+        <Points>{points}</Points>
         <View className="absolute bottom-4 right-4">
-          <Text className="text-right text-4xl text-gray-300 mb-2">{scores.length}</Text>
+          <Text className="text-right text-4xl text-gray-300 mb-2">{points.length}</Text>
           <Text className="text-right text-6xl text-gray-800">{sum}</Text>
         </View>
       </View>

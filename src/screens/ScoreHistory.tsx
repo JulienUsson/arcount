@@ -1,20 +1,13 @@
-import { useIsFocused } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { format } from 'date-fns'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Text, View } from 'react-native'
 
-import Scores from '../components/scores'
-
-import { ScoreHistory, useScoreHistories } from '../db'
+import Points from '../components/points'
+import { Score, useScoreStore } from '../stores/scoreStore'
 
 export default function ScoreCounter() {
-  const isFocused = useIsFocused()
-  const [scores, refresh] = useScoreHistories()
-
-  useEffect(() => {
-    refresh()
-  }, [refresh, isFocused])
+  const scores = useScoreStore((state) => state.scores)
 
   return (
     <View style={{ flex: 1 }}>
@@ -32,11 +25,11 @@ export default function ScoreCounter() {
   )
 }
 
-function ScoreLine({ date, scores, average, sum }: ScoreHistory) {
+function ScoreLine({ date, points, average, sum }: Score) {
   return (
     <View>
       <Text>{format(date, 'dd/MM/yyyy HH:mm')}</Text>
-      <Scores>{scores}</Scores>
+      <Points>{points}</Points>
       <Text>
         {average.toFixed(1)} {sum}
       </Text>

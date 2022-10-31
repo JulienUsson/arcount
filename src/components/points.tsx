@@ -5,11 +5,11 @@ interface Props {
   children: number[]
 }
 
-export default function Scores({ children: scoresProp }: Props) {
-  const scores = useMemo(() => [...scoresProp].sort((a, b) => a - b).reverse(), [scoresProp])
+export default function Points({ children: pointsProp }: Props) {
+  const points = useMemo(() => [...pointsProp].sort((a, b) => a - b).reverse(), [pointsProp])
   return (
     <View className="flex-row m-3 flex-wrap">
-      {scores.map((score, index) => {
+      {points.map((score, index) => {
         const bgColor = getBackgroundClass(score)
         return (
           <View
