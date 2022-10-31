@@ -16,10 +16,6 @@ export default function ScoreCounter() {
     }
   }
 
-  function clear() {
-    setScores([])
-  }
-
   function remove() {
     setScores(scores.filter((_, index) => index !== scores.length - 1))
   }
@@ -42,8 +38,7 @@ export default function ScoreCounter() {
       </View>
       <View className="mx-4 mb-2 border-t border-gray-100" />
       <View className="flex flex-row">
-        <View className="w-1/4" />
-        <IconButton name="clear" onPress={clear} />
+        <View className="w-1/2" />
         <IconButton name="backspace" onPress={remove} />
         <IconButton name="done" onPress={done} />
       </View>
