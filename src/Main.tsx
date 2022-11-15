@@ -4,6 +4,7 @@ import React from 'react'
 
 import ScoreCounter from './screens/ScoreCounter'
 import ScoreHistory from './screens/ScoreHistory'
+import Settings from './screens/Settings'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -29,6 +30,13 @@ export default function Main() {
         component={ScoreHistory}
         options={{
           tabBarIcon: ({ color }) => <Icon name="timeline" color={color} size={24} />,
+        }}
+      />
+      <Tab.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          tabBarIcon: ({ color }) => <Icon name="settings" color={color} size={24} />,
         }}
       />
     </Tab.Navigator>
