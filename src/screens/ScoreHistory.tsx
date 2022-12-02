@@ -1,6 +1,7 @@
 import { FlashList } from '@shopify/flash-list'
 import { format } from 'date-fns'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Text, View } from 'react-native'
 
 import Points from '../components/points'
@@ -26,16 +27,17 @@ export default function ScoreCounter() {
 }
 
 function ScoreLine({ date, points, average, sum }: Score) {
+  const { t } = useTranslation()
   return (
     <View>
       <Text className="text-center font-light">{format(date, 'dd/MM/yyyy - HH:mm')}</Text>
       <Points>{points}</Points>
       <View className="flex-row justify-around">
         <Text className="font-bold">
-          <Text className="font-light">AVG</Text> {average.toFixed(1)}
+          <Text className="font-light">{t('AVG')}</Text> {average.toFixed(1)}
         </Text>
         <Text className="font-bold">
-          <Text className="font-light">SUM</Text> {sum}
+          <Text className="font-light">{t('SUM')}</Text> {sum}
         </Text>
       </View>
     </View>
@@ -43,9 +45,10 @@ function ScoreLine({ date, points, average, sum }: Score) {
 }
 
 function Empty() {
+  const { t } = useTranslation()
   return (
     <Text className="text-center text-gray-700">
-      Start your training now and come back later to see your scores !
+      {t('Start your training now and come back later to see your scores !')}
     </Text>
   )
 }

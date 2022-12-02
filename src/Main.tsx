@@ -1,3 +1,4 @@
+import './i18n'
 import Icon from '@expo/vector-icons/MaterialIcons'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import React from 'react'
