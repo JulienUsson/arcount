@@ -32,7 +32,7 @@ export default function ScoreCounter() {
     <View className="h-full">
       <View className="flex-1 relative">
         <Points>{points}</Points>
-        <View className="absolute bottom-4 right-4">
+        <View className="mb-4 mx-4">
           <Text className="text-right text-4xl text-gray-300 mb-2">{points.length}</Text>
           <Text className="text-right text-6xl text-gray-800">{sum}</Text>
         </View>
