@@ -21,6 +21,10 @@ export default function ScoreCounter() {
     setPoints(points.filter((_, index) => index !== points.length - 1))
   }
 
+  function removeAll() {
+    setPoints([])
+  }
+
   async function done() {
     if (points.length > 0) {
       addScore(points)
@@ -40,7 +44,12 @@ export default function ScoreCounter() {
       <View className="mx-4 mb-2 border-t border-gray-100" />
       <View className="flex flex-row">
         <View className="w-1/2" />
-        <IconButton name="backspace" iconStyle="pr-[6px]" onPress={remove} />
+        <IconButton
+          name="backspace"
+          iconStyle="pr-[6px]"
+          onPress={remove}
+          onLongPress={removeAll}
+        />
         <IconButton name="done" onPress={done} />
       </View>
       <View className="flex flex-row">
