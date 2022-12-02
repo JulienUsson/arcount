@@ -3,9 +3,13 @@ import Icon from '@expo/vector-icons/MaterialIcons'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import React from 'react'
 
+import { Text, View } from 'react-native'
+
 import ScoreCounter from './screens/ScoreCounter'
 import ScoreHistory from './screens/ScoreHistory'
+import SessionScore from './screens/SessionScore'
 import Settings from './screens/Settings'
+import { useSessionStore } from './stores/sessionStore'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -27,6 +31,14 @@ export default function Main() {
         }}
       />
       <Tab.Screen
+        name="SessionScore"
+        component={SessionScore}
+        options={{
+          tabBarIcon: ({ color }) => <Icon name="track-changes" color={color} size={24} />,
+          tabBarBadge: () => <SessionBadge />,
+        }}
+      />
+      <Tab.Screen
         name="ScoreHistory"
         component={ScoreHistory}
         options={{
@@ -41,5 +53,22 @@ export default function Main() {
         }}
       />
     </Tab.Navigator>
+  )
+}
+
+function SessionBadge() {
+  const count = useSessionStore((state) => state.scores.length)
+  if (!count) {
+    return null
+  }
+
+  return <Badge>{count}</Badge>
+}
+
+function Badge({ children }: { children: number }) {
+  return (
+    <View className="bg-red-600 rounded-full h-[18px] w-[18px] justify-center items-center">
+      <Text className="text-white text-xs font-bold">{children}</Text>
+    </View>
   )
 }

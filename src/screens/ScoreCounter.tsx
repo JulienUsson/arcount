@@ -4,10 +4,10 @@ import { Text, View } from 'react-native'
 import Button from '../components/button'
 import IconButton from '../components/icon-button'
 import Points from '../components/points'
-import { useScoreStore } from '../stores/scoreStore'
+import { useSessionStore } from '../stores/sessionStore'
 
 export default function ScoreCounter() {
-  const addScore = useScoreStore((state) => state.add)
+  const addScore = useSessionStore((state) => state.add)
   const [points, setPoints] = useState<number[]>([])
   const sum = useMemo(() => points.reduce((acc, score) => acc + score, 0), [points])
 

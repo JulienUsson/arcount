@@ -20,3 +20,10 @@ i18n.use(initReactI18next).init({
 })
 
 export default i18n
+
+export function getDateFnsLocale() {
+  if (locale.startsWith('fr')) {
+    return require('date-fns/locale/fr')
+  }
+  return require('date-fns/locale/en-US')
+}
