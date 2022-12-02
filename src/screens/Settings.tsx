@@ -1,6 +1,8 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Linking, Text, TouchableHighlight, View } from 'react-native'
+import { Linking } from 'react-native'
+
+import { List, ListItemButton } from '../components/List'
 
 export default function Settings() {
   const { t } = useTranslation()
@@ -12,10 +14,10 @@ export default function Settings() {
   }
 
   return (
-    <View className="flex-grow border-t border-gray-100">
-      <TouchableHighlight underlayColor="#f3f4f6" onPress={handlePrivacyPolicyPress}>
-        <Text className="py-4 text-center border-b border-gray-100">{t('Privacy Policy')}</Text>
-      </TouchableHighlight>
-    </View>
+    <List>
+      <ListItemButton onPress={handlePrivacyPolicyPress} icon="privacy-tip">
+        {t('Privacy Policy')}
+      </ListItemButton>
+    </List>
   )
 }

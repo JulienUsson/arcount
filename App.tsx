@@ -1,6 +1,8 @@
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 
 import Main from './src/Main'
 
@@ -17,9 +19,13 @@ const navigationTheme = {
 
 export default function App() {
   return (
-    <NavigationContainer theme={navigationTheme}>
-      <StatusBar backgroundColor="white" translucent={false} />
-      <Main />
-    </NavigationContainer>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer theme={navigationTheme}>
+        <BottomSheetModalProvider>
+          <StatusBar backgroundColor="white" translucent={false} />
+          <Main />
+        </BottomSheetModalProvider>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   )
 }

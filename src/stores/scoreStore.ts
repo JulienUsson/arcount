@@ -12,6 +12,7 @@ export interface Score {
 interface ScoreState {
   scores: Score[]
   add: (points: number[]) => void
+  remove: (index: number) => void
 }
 
 export const useScoreStore = create<ScoreState>()(
@@ -24,6 +25,10 @@ export const useScoreStore = create<ScoreState>()(
           const average = sum / points.length
           const newScore: Score = { points, date: Date.now(), average, sum }
           return { scores: [newScore, ...scores] }
+        }),
+      remove: (index) =>
+        set(({ scores }) => {
+          return { scores: scores.filter((_, i) => i !== index) }
         }),
     }),
     {
