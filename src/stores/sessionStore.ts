@@ -7,6 +7,7 @@ export interface Score {
   date: number
   sum: number
   average: number
+  max: number
 }
 
 interface SessionState {
@@ -23,7 +24,13 @@ export const useSessionStore = create<SessionState>()(
         set(({ scores }) => {
           const sum = points.reduce((acc, point) => acc + point, 0)
           const average = sum / points.length
-          const newScore: Score = { points, date: Date.now(), average, sum }
+          const newScore: Score = {
+            points,
+            date: Date.now(),
+            average,
+            sum,
+            max: points.length * 10,
+          }
           return { scores: [newScore, ...scores] }
         }),
       remove: (index) =>

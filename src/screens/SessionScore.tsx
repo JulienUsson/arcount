@@ -73,7 +73,7 @@ interface ScoreLineProps extends Score {
   onLongPress?: (event: GestureResponderEvent) => void
 }
 
-function ScoreLine({ date, points, average, sum, onLongPress }: ScoreLineProps) {
+function ScoreLine({ date, points, average, sum, max, onLongPress }: ScoreLineProps) {
   const { t } = useTranslation()
   return (
     <TouchableHighlight underlayColor="#f3f4f6" onLongPress={onLongPress}>
@@ -88,6 +88,7 @@ function ScoreLine({ date, points, average, sum, onLongPress }: ScoreLineProps) 
           </Text>
           <Text className="font-bold">
             <Text className="font-light">{t('SUM')}</Text> {sum}
+            <Text className="font-light">/{max}</Text>
           </Text>
         </View>
       </View>
