@@ -2,16 +2,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
 
-export interface Score {
+export interface SessionScore {
   points: number[]
-  date: number
   sum: number
   average: number
   max: number
 }
 
 interface SessionState {
-  scores: Score[]
+  scores: SessionScore[]
   add: (points: number[]) => void
   remove: (index: number) => void
   removeAll: () => void
@@ -25,9 +24,8 @@ export const useSessionStore = create<SessionState>()(
         set(({ scores }) => {
           const sum = points.reduce((acc, point) => acc + point, 0)
           const average = sum / points.length
-          const newScore: Score = {
+          const newScore: SessionScore = {
             points,
-            date: Date.now(),
             average,
             sum,
             max: points.length * 10,

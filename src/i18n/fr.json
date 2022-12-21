@@ -1,12 +1,16 @@
 {
     "Start your training now and come back later to see your scores !": "Commencez votre entraînement maintenant et revenez plus tard pour voir vos scores !",
+    "Start your training now and come back later to see your history !": "Commencez votre entraînement maintenant et revenez plus tard pour voir votre historique !",
     "AVG": "MOY",
     "SUM": "SOM",
-    "CNT": "CPT",
+    "CNT": "VOL",
     "Privacy Policy": "Politique de confidentialité",
     "Remove this line": "Supprimer cette ligne",
     "Are you sure to delete all scores?": "Êtes-vous sûr de vouloir supprimer tous les scores ?",
     "Warning": "Attention",
     "Cancel": "Annuler",
-    "CONFIRM": "CONFIRMER"
+    "CONFIRM": "CONFIRMER",
+    "SAVE": "SAUVEGARDER",
+    "Choose a name": "Choisir un nom",
+    "Save your training": "Sauvegarder votre entraînement"
 }

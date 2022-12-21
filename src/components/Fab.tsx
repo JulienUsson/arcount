@@ -11,7 +11,7 @@ interface Props extends TouchableOpacityProps {
 
 function Fab({ rootStyle, iconStyle, icon, ...props }: Props) {
   return (
-    <View className="h-24 w-1/4 p-4">
+    <View className="absolute bottom-0 rounded-full right-0 h-[64px] w-[64px] bg-yellow-400 m-2">
       <TouchableHighlight
         underlayColor="#f3f4f6"
         {...props}

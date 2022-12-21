@@ -11,9 +11,7 @@ import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, Text, View } from 'react-native'
 
 import { List, ListItemButton } from '../components/List'
-
-import Points from '../components/points'
-import { Score, useScoreStore } from '../stores/scoreStore'
+import { HistoryScore, useHistoryStore } from '../stores/scoreStore'
 
 const snapPoints = ['25%']
 
@@ -21,14 +19,15 @@ const renderBackdrop = (props: BottomSheetBackdropProps) => (
   <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
 )
 
-export default function ScoreCounter() {
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-  const scores = useScoreStore((state) => state.scores)
-  const removeScore = useScoreStore((state) => state.remove)
-  const currentIndexRef = useRef<number>()
+export default function ScoreHistoryScreen() {
   const { t } = useTranslation()
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
+  const currentIndexRef = useRef<number>()
 
-  const handleLineLongPress = (_score: Score, index: number) => {
+  const history = useHistoryStore((state) => state.history)
+  const removeScore = useHistoryStore((state) => state.remove)
+
+  const handleLineLongPress = (_score: HistoryScore, index: number) => {
     return () => {
       bottomSheetModalRef.current?.present()
       currentIndexRef.current = index
@@ -47,7 +46,7 @@ export default function ScoreCounter() {
           return <ScoreLine {...item} onLongPress={handleLineLongPress(item, index)} />
         }}
         keyExtractor={(item) => item.date.toString()}
-        data={scores}
+        data={history}
         estimatedItemSize={100}
         ItemSeparatorComponent={Separator}
         ListEmptyComponent={Empty}
@@ -68,17 +67,16 @@ export default function ScoreCounter() {
   )
 }
 
-interface ScoreLineProps extends Score {
+interface ScoreLineProps extends HistoryScore {
   onLongPress?: (event: GestureResponderEvent) => void
 }
 
-function ScoreLine({ date, points, average, sum, onLongPress }: ScoreLineProps) {
+function ScoreLine({ date, average, sum, onLongPress }: ScoreLineProps) {
   const { t } = useTranslation()
   return (
     <TouchableHighlight underlayColor="#f3f4f6" onLongPress={onLongPress}>
       <View className="px-4 py-1">
         <Text className="text-center font-light">{format(date, 'dd/MM/yyyy - HH:mm')}</Text>
-        <Points>{points}</Points>
         <View className="flex-row justify-around">
           <Text className="font-bold">
             <Text className="font-light">{t('AVG')}</Text> {average.toFixed(1)}
@@ -96,7 +94,7 @@ function Empty() {
   const { t } = useTranslation()
   return (
     <Text className="text-center text-gray-700">
-      {t('Start your training now and come back later to see your scores !')}
+      {t('Start your training now and come back later to see your history !')}
     </Text>
   )
 }

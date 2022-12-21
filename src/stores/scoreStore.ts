@@ -1,38 +1,48 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import _ from 'lodash'
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
 
-export interface Score {
-  points: number[]
+import { SessionScore } from './sessionStore'
+
+export interface HistoryScore {
+  title: string
   date: number
+  scores: SessionScore[]
   sum: number
   average: number
+  max: number
 }
 
-interface ScoreState {
-  scores: Score[]
-  add: (points: number[]) => void
+interface HistoryState {
+  history: HistoryScore[]
+  add: (title: string, scores: SessionScore[]) => void
   remove: (index: number) => void
 }
 
-export const useScoreStore = create<ScoreState>()(
+export const useHistoryStore = create<HistoryState>()(
   persist(
     (set) => ({
-      scores: [],
-      add: (points) =>
-        set(({ scores }) => {
-          const sum = points.reduce((acc, point) => acc + point, 0)
-          const average = sum / points.length
-          const newScore: Score = { points, date: Date.now(), average, sum }
-          return { scores: [newScore, ...scores] }
-        }),
+      history: [],
+      add: (title, scores) => {
+        const points = scores.flatMap((score) => score.points)
+        const newHistory: HistoryScore = {
+          title,
+          date: Date.now(),
+          scores,
+          sum: _.sum(points),
+          average: _.mean(points),
+          max: _.sumBy(scores, (score) => score.max),
+        }
+        return set(({ history }) => ({ history: [newHistory, ...history] }))
+      },
       remove: (index) =>
-        set(({ scores }) => {
-          return { scores: scores.filter((_, i) => i !== index) }
+        set(({ history: scores }) => {
+          return { history: scores.filter((_, i) => i !== index) }
         }),
     }),
     {
-      name: '@scores',
+      name: '@history',
       getStorage: () => AsyncStorage,
     },
   ),

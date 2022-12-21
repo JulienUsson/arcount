@@ -4,18 +4,24 @@ import {
   BottomSheetBackdropProps,
   TouchableHighlight,
 } from '@gorhom/bottom-sheet'
+import { MaterialTopTabScreenProps } from '@react-navigation/material-top-tabs'
+import { useNavigation } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import _ from 'lodash'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, Text, View } from 'react-native'
 
-import { ConfirmDialog } from '../components/confirmDialog'
-
-import Fab from '../components/fab'
+import { ConfirmDialog } from '../components/ConfirmDialog'
+import Fab from '../components/Fab'
+import { InputDialog } from '../components/InputDialog'
 import { List, ListItemButton } from '../components/List'
-import Points from '../components/points'
-import { Score, useSessionStore } from '../stores/sessionStore'
+import Points from '../components/Points'
+import { RootParamList } from '../Main'
+import { useHistoryStore } from '../stores/scoreStore'
+import { SessionScore, useSessionStore } from '../stores/sessionStore'
+
+type Navigation = MaterialTopTabScreenProps<RootParamList, 'SessionScore'>['navigation']
 
 const snapPoints = ['25%']
 
@@ -23,15 +29,18 @@ const renderBackdrop = (props: BottomSheetBackdropProps) => (
   <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
 )
 
-export default function SessionScore() {
+export default function SessionScoreScreen() {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null)
   const currentIndexRef = useRef<number>()
   const { t } = useTranslation()
+  const navigation = useNavigation<Navigation>()
 
   const scores = useSessionStore((state) => state.scores)
   const removeScore = useSessionStore((state) => state.remove)
   const removeAllScores = useSessionStore((state) => state.removeAll)
+  const saveScore = useHistoryStore((state) => state.add)
   const [showRemoveAllConfirm, setRemoveAllConfirm] = useState(false)
+  const [showSaveDialog, setSaveDialog] = useState(false)
 
   const volleysCount = scores.length
   const points = scores.flatMap((score) => score.points)
@@ -39,7 +48,7 @@ export default function SessionScore() {
   const sum = _.sum(points)
   const max = _.sumBy(scores, (score) => score.max)
 
-  const handleLineLongPress = (_score: Score, index: number) => {
+  const handleLineLongPress = (_score: SessionScore, index: number) => {
     return () => {
       bottomSheetModalRef.current?.present()
       currentIndexRef.current = index
@@ -56,11 +65,24 @@ export default function SessionScore() {
     setRemoveAllConfirm(true)
   }
 
+  const handleSavePress = () => {
+    setSaveDialog(true)
+  }
+
   const handleRemoveAllConfirmClose = (resp: boolean) => {
     if (resp) {
       removeAllScores()
     }
     setRemoveAllConfirm(false)
+  }
+
+  const handleSaveDialogClose = (text: string | undefined) => {
+    if (text !== undefined) {
+      saveScore(text, scores)
+      removeAllScores()
+      navigation.navigate('ScoreHistory')
+    }
+    setSaveDialog(false)
   }
 
   return (
@@ -87,13 +109,14 @@ export default function SessionScore() {
         renderItem={({ item, index }) => {
           return <ScoreLine {...item} onLongPress={handleLineLongPress(item, index)} />
         }}
-        keyExtractor={(item) => item.date.toString()}
+        keyExtractor={(_item, index) => index.toString()}
         data={scores}
         estimatedItemSize={100}
         ItemSeparatorComponent={Separator}
         ListEmptyComponent={Empty}
+        ListFooterComponent={<View className="h-[80px]" />}
       />
-      <Fab rootStyle="absolute bottom-0 right-0" icon="sort" />
+      {volleysCount > 0 && <Fab icon="save" onPress={handleSavePress} />}
       <BottomSheetModal
         ref={bottomSheetModalRef}
         index={0}
@@ -114,11 +137,17 @@ export default function SessionScore() {
         open={showRemoveAllConfirm}
         onClose={handleRemoveAllConfirmClose}
       />
+      <InputDialog
+        title={t('Save your training')}
+        placeholder={t('Choose a name')}
+        open={showSaveDialog}
+        onClose={handleSaveDialogClose}
+      />
     </View>
   )
 }
 
-interface ScoreLineProps extends Score {
+interface ScoreLineProps extends SessionScore {
   onLongPress?: (event: GestureResponderEvent) => void
 }
 

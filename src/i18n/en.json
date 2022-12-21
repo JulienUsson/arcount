@@ -1,5 +1,6 @@
 {
     "Start your training now and come back later to see your scores !": "Start your training now and come back later to see your scores !",
+    "Start your training now and come back later to see your history !": "Start your training now and come back later to see your history !",
     "AVG": "AVG",
     "SUM": "SUM",
     "CNT": "CNT",
@@ -8,5 +9,8 @@
     "Are you sure to delete all scores?": "Are you sure to delete all scores?",
     "Warning": "Warning",
     "Cancel": "Cancel",
-    "CONFIRM": "CONFIRM"
+    "CONFIRM": "CONFIRM",
+    "SAVE": "SAVE",
+    "Choose a name": "Choose a name",
+    "Save your training": "Save your training"
 }
