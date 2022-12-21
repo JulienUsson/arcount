@@ -18,7 +18,7 @@ import { InputDialog } from '../components/InputDialog'
 import { List, ListItemButton } from '../components/List'
 import Points from '../components/Points'
 import { RootParamList } from '../Main'
-import { useHistoryStore } from '../stores/scoreStore'
+import { useHistoryStore } from '../stores/historyStore'
 import { SessionScore, useSessionStore } from '../stores/sessionStore'
 
 type Navigation = MaterialTopTabScreenProps<RootParamList, 'SessionScore'>['navigation']
