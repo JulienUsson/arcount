@@ -4,7 +4,7 @@ import { Linking } from 'react-native'
 
 import { List, ListItemButton } from '../components/List'
 
-export default function SettingsScreen() {
+export default function MoreScreen() {
   const { t } = useTranslation()
 
   async function handlePrivacyPolicyPress() {

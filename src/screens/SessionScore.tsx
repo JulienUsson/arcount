@@ -94,13 +94,13 @@ export default function SessionScoreScreen() {
               <Text className="font-light">{t('CNT')}</Text> {volleysCount}
             </Text>
 
-            <Text className="text-lg font-bold">
-              <Text className="font-light">{t('AVG')}</Text> {average.toFixed(1)}
-            </Text>
-
             <Text className="text-lg  font-bold">
               <Text className="font-light">{t('SUM')}</Text> {sum}
               <Text className="font-light">/{max}</Text>
+            </Text>
+
+            <Text className="text-lg font-bold">
+              <Text className="font-light">{t('AVG')}</Text> {average.toFixed(1)}
             </Text>
           </View>
         </View>
@@ -159,11 +159,12 @@ function ScoreLine({ points, average, sum, max, onLongPress }: ScoreLineProps) {
         <Points>{points}</Points>
         <View className="flex-row justify-around">
           <Text className="font-bold">
-            <Text className="font-light">{t('AVG')}</Text> {average.toFixed(1)}
-          </Text>
-          <Text className="font-bold">
             <Text className="font-light">{t('SUM')}</Text> {sum}
             <Text className="font-light">/{max}</Text>
+          </Text>
+
+          <Text className="font-bold">
+            <Text className="font-light">{t('AVG')}</Text> {average.toFixed(1)}
           </Text>
         </View>
       </View>

@@ -4,17 +4,17 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import React from 'react'
 
 import Badge from './components/Badge'
+import MoreScreen from './screens/More'
 import ScoreCounterScreen from './screens/ScoreCounter'
 import ScoreHistory from './screens/ScoreHistory'
 import SessionScoreScreen from './screens/SessionScore'
-import SettingsScreen from './screens/Settings'
 import { useSessionStore } from './stores/sessionStore'
 
 export type RootParamList = {
   ScoreCounter: undefined
   SessionScore: undefined
   ScoreHistory: undefined
-  Settings: undefined
+  More: undefined
 }
 
 const Tab = createMaterialTopTabNavigator<RootParamList>()
@@ -52,10 +52,10 @@ export default function Main() {
         }}
       />
       <Tab.Screen
-        name="Settings"
-        component={SettingsScreen}
+        name="More"
+        component={MoreScreen}
         options={{
-          tabBarIcon: ({ color }) => <Icon name="settings" color={color} size={24} />,
+          tabBarIcon: ({ color }) => <Icon name="more-horiz" color={color} size={24} />,
         }}
       />
     </Tab.Navigator>

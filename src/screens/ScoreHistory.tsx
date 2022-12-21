@@ -71,18 +71,25 @@ interface ScoreLineProps extends HistoryScore {
   onLongPress?: (event: GestureResponderEvent) => void
 }
 
-function ScoreLine({ date, average, sum, onLongPress }: ScoreLineProps) {
+function ScoreLine({ title, date, average, sum, max, onLongPress }: ScoreLineProps) {
   const { t } = useTranslation()
   return (
     <TouchableHighlight underlayColor="#f3f4f6" onLongPress={onLongPress}>
       <View className="px-4 py-1">
-        <Text className="text-center font-light">{format(date, 'dd/MM/yyyy - HH:mm')}</Text>
+        <View className="flex-row">
+          <Text>{title}</Text>
+          <View className="flex-grow" />
+          <Text className="font-light">{format(date, 'dd/MM/yyyy - HH:mm')}</Text>
+        </View>
+
         <View className="flex-row justify-around">
-          <Text className="font-bold">
-            <Text className="font-light">{t('AVG')}</Text> {average.toFixed(1)}
-          </Text>
-          <Text className="font-bold">
+          <Text className="font-bold  text-lg">
             <Text className="font-light">{t('SUM')}</Text> {sum}
+            <Text className="font-light">/{max}</Text>
+          </Text>
+
+          <Text className="font-bold  text-lg">
+            <Text className="font-light">{t('AVG')}</Text> {average.toFixed(1)}
           </Text>
         </View>
       </View>
@@ -93,7 +100,7 @@ function ScoreLine({ date, average, sum, onLongPress }: ScoreLineProps) {
 function Empty() {
   const { t } = useTranslation()
   return (
-    <Text className="text-center text-gray-700">
+    <Text className="text-center text-gray-400">
       {t('Start your training now and come back later to see your history !')}
     </Text>
   )
