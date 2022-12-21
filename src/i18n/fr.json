@@ -2,6 +2,11 @@
     "Start your training now and come back later to see your scores !": "Commencez votre entraînement maintenant et revenez plus tard pour voir vos scores !",
     "AVG": "MOY",
     "SUM": "SOM",
+    "CNT": "CPT",
     "Privacy Policy": "Politique de confidentialité",
-    "Remove this line": "Supprimer cette ligne"
+    "Remove this line": "Supprimer cette ligne",
+    "Are you sure to delete all scores?": "Êtes-vous sûr de vouloir supprimer tous les scores ?",
+    "Warning": "Attention",
+    "Cancel": "Annuler",
+    "CONFIRM": "CONFIRMER"
 }

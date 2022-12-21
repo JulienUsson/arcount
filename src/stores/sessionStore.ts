@@ -14,6 +14,7 @@ interface SessionState {
   scores: Score[]
   add: (points: number[]) => void
   remove: (index: number) => void
+  removeAll: () => void
 }
 
 export const useSessionStore = create<SessionState>()(
@@ -33,10 +34,8 @@ export const useSessionStore = create<SessionState>()(
           }
           return { scores: [newScore, ...scores] }
         }),
-      remove: (index) =>
-        set(({ scores }) => {
-          return { scores: scores.filter((_, i) => i !== index) }
-        }),
+      remove: (index) => set(({ scores }) => ({ scores: scores.filter((_, i) => i !== index) })),
+      removeAll: () => set(() => ({ scores: [] })),
     }),
     {
       name: '@session',
