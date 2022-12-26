@@ -1,7 +1,23 @@
 {
     "Start your training now and come back later to see your scores !": "Start your training now and come back later to see your scores !",
+    "Start your training now and come back later to see your history !": "Start your training now and come back later to see your history !",
     "AVG": "AVG",
     "SUM": "SUM",
+    "CNT": "CNT",
     "Privacy Policy": "Privacy Policy",
-    "Remove this line": "Remove this line"
+    "Remove this line": "Remove this line",
+    "Are you sure to delete all scores?": "Are you sure to delete all scores?",
+    "Warning": "Warning",
+    "Cancel": "Cancel",
+    "CONFIRM": "CONFIRM",
+    "SAVE": "SAVE",
+    "Choose a name": "Choose a name",
+    "Save your training": "Save your training",
+    "More infos": "More infos",
+    "Remove all lines": "Remove all lines",
+    "Sight Adjustments": "Sight Adjustments",
+    "SET": "SET",
+    "Edit this line": "Edit this line",
+    "Set Sight Adjustment": "Set sight Adjustment",
+    "Use this screen to save your sight adjustments.": "Use this screen to save your sight adjustments."
 }

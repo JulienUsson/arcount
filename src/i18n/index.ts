@@ -11,6 +11,7 @@ const resources = {
 }
 
 i18n.use(initReactI18next).init({
+  compatibilityJSON: 'v3',
   resources,
   lng: locale,
   fallbackLng: 'en',
@@ -20,3 +21,10 @@ i18n.use(initReactI18next).init({
 })
 
 export default i18n
+
+export function getDateFnsLocale() {
+  if (locale.startsWith('fr')) {
+    return require('date-fns/locale/fr')
+  }
+  return require('date-fns/locale/en-US')
+}

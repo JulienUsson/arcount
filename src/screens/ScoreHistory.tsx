@@ -6,14 +6,15 @@ import {
 } from '@gorhom/bottom-sheet'
 import { FlashList } from '@shopify/flash-list'
 import { format } from 'date-fns'
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, Text, View } from 'react-native'
 
 import { List, ListItemButton } from '../components/List'
-
-import Points from '../components/points'
-import { Score, useScoreStore } from '../stores/scoreStore'
+import { Modal } from '../components/Modal'
+import Points from '../components/Points'
+import { HistoryScore, useHistoryStore } from '../stores/historyStore'
+import { SessionScore } from '../stores/sessionStore'
 
 const snapPoints = ['25%']
 
@@ -21,14 +22,16 @@ const renderBackdrop = (props: BottomSheetBackdropProps) => (
   <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
 )
 
-export default function ScoreCounter() {
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
-  const scores = useScoreStore((state) => state.scores)
-  const removeScore = useScoreStore((state) => state.remove)
-  const currentIndexRef = useRef<number>()
+export default function ScoreHistoryScreen() {
   const { t } = useTranslation()
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null)
+  const currentIndexRef = useRef<number>()
 
-  const handleLineLongPress = (_score: Score, index: number) => {
+  const [currentHistory, setCurrentHistory] = useState<HistoryScore>()
+  const history = useHistoryStore((state) => state.history)
+  const removeScore = useHistoryStore((state) => state.remove)
+
+  const handleLineLongPress = (_score: HistoryScore, index: number) => {
     return () => {
       bottomSheetModalRef.current?.present()
       currentIndexRef.current = index
@@ -40,14 +43,19 @@ export default function ScoreCounter() {
     bottomSheetModalRef.current?.dismiss()
   }
 
+  const handleMoreInfoPress = () => {
+    setCurrentHistory(history[currentIndexRef.current!])
+    bottomSheetModalRef.current?.dismiss()
+  }
+
   return (
     <View className="flex-1 mt-2">
       <FlashList
         renderItem={({ item, index }) => {
-          return <ScoreLine {...item} onLongPress={handleLineLongPress(item, index)} />
+          return <HistoryLine {...item} onLongPress={handleLineLongPress(item, index)} />
         }}
         keyExtractor={(item) => item.date.toString()}
-        data={scores}
+        data={history}
         estimatedItemSize={100}
         ItemSeparatorComponent={Separator}
         ListEmptyComponent={Empty}
@@ -59,32 +67,85 @@ export default function ScoreCounter() {
         backdropComponent={renderBackdrop}
       >
         <List>
+          <ListItemButton icon="more-vert" onPress={handleMoreInfoPress}>
+            {t('More infos')}
+          </ListItemButton>
           <ListItemButton icon="delete" onPress={handleRemoveLinePress}>
             {t('Remove this line')}
           </ListItemButton>
         </List>
       </BottomSheetModal>
+
+      {currentHistory && (
+        <Modal
+          open
+          title={currentHistory.title || format(currentHistory.date, 'dd/MM/yyyy - HH:mm')}
+          onClose={() => setCurrentHistory(undefined)}
+        >
+          <FlashList
+            renderItem={({ item }) => {
+              return <ScoreLine {...item} />
+            }}
+            keyExtractor={(_item, index) => index.toString()}
+            data={currentHistory.scores}
+            estimatedItemSize={100}
+            ItemSeparatorComponent={Separator}
+            ListFooterComponent={<View className="h-[80px]" />}
+          />
+        </Modal>
+      )}
     </View>
   )
 }
 
-interface ScoreLineProps extends Score {
+interface HistoryLineProps extends HistoryScore {
   onLongPress?: (event: GestureResponderEvent) => void
 }
 
-function ScoreLine({ date, points, average, sum, onLongPress }: ScoreLineProps) {
+function HistoryLine({ title, date, average, sum, max, onLongPress }: HistoryLineProps) {
   const { t } = useTranslation()
   return (
     <TouchableHighlight underlayColor="#f3f4f6" onLongPress={onLongPress}>
       <View className="px-4 py-1">
-        <Text className="text-center font-light">{format(date, 'dd/MM/yyyy - HH:mm')}</Text>
+        <View className="flex-row">
+          <Text>{title}</Text>
+          <View className="flex-grow" />
+          <Text className="font-light">{format(date, 'dd/MM/yyyy - HH:mm')}</Text>
+        </View>
+
+        <View className="flex-row justify-around">
+          <Text className="font-bold  text-lg">
+            <Text className="font-light">{t('SUM')}</Text> {sum}
+            <Text className="font-light">/{max}</Text>
+          </Text>
+
+          <Text className="font-bold  text-lg">
+            <Text className="font-light">{t('AVG')}</Text> {average.toFixed(1)}
+          </Text>
+        </View>
+      </View>
+    </TouchableHighlight>
+  )
+}
+
+interface ScoreLineProps extends SessionScore {
+  onLongPress?: (event: GestureResponderEvent) => void
+}
+
+function ScoreLine({ points, average, sum, max, onLongPress }: ScoreLineProps) {
+  const { t } = useTranslation()
+  return (
+    <TouchableHighlight underlayColor="#f3f4f6" onLongPress={onLongPress}>
+      <View className="px-4 py-1">
         <Points>{points}</Points>
         <View className="flex-row justify-around">
           <Text className="font-bold">
-            <Text className="font-light">{t('AVG')}</Text> {average.toFixed(1)}
-          </Text>
-          <Text className="font-bold">
             <Text className="font-light">{t('SUM')}</Text> {sum}
+            <Text className="font-light">/{max}</Text>
+          </Text>
+
+          <Text className="font-bold">
+            <Text className="font-light">{t('AVG')}</Text> {average.toFixed(1)}
           </Text>
         </View>
       </View>
@@ -95,8 +156,8 @@ function ScoreLine({ date, points, average, sum, onLongPress }: ScoreLineProps) 
 function Empty() {
   const { t } = useTranslation()
   return (
-    <Text className="text-center text-gray-700">
-      {t('Start your training now and come back later to see your scores !')}
+    <Text className="text-center text-gray-400">
+      {t('Start your training now and come back later to see your history !')}
     </Text>
   )
 }
