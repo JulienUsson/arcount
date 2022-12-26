@@ -4,6 +4,8 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import React from 'react'
 
+import { useTranslation } from 'react-i18next'
+
 import Badge from './components/Badge'
 import MoreScreen from './screens/More'
 import PrivacyPolicyScreen from './screens/PrivacyPolicy'
@@ -30,11 +32,21 @@ const Stack = createNativeStackNavigator<RootStackParamList>()
 const Tab = createMaterialTopTabNavigator<TabParamList>()
 
 export default function Main() {
+  const { t } = useTranslation()
+
   return (
     <Stack.Navigator>
       <Stack.Screen name="Main" component={TabNavigator} options={{ header: () => null }} />
-      <Stack.Screen name="SightAdjustments" component={SightAdjustmentsScreen} />
-      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
+      <Stack.Screen
+        name="SightAdjustments"
+        component={SightAdjustmentsScreen}
+        options={{ title: t('Sight Adjustments') as string }}
+      />
+      <Stack.Screen
+        name="PrivacyPolicy"
+        component={PrivacyPolicyScreen}
+        options={{ title: t('Privacy Policy') as string }}
+      />
     </Stack.Navigator>
   )
 }
