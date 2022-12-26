@@ -12,12 +12,17 @@ import PrivacyPolicyScreen from './screens/PrivacyPolicy'
 import ScoreCounterScreen from './screens/ScoreCounter'
 import ScoreHistory from './screens/ScoreHistory'
 import SessionScoreScreen from './screens/SessionScore'
+import SetSightAdjustmentScreen from './screens/SetSightAdjustment'
 import SightAdjustmentsScreen from './screens/SightAdjustments'
 import { useSessionStore } from './stores/sessionStore'
 
 export type RootStackParamList = {
   Main: undefined
   SightAdjustments: undefined
+  SetSightAdjustment: {
+    distance?: number
+    value?: number
+  }
   PrivacyPolicy: undefined
 }
 
@@ -41,6 +46,11 @@ export default function Main() {
         name="SightAdjustments"
         component={SightAdjustmentsScreen}
         options={{ title: t('Sight Adjustments') as string }}
+      />
+      <Stack.Screen
+        name="SetSightAdjustment"
+        component={SetSightAdjustmentScreen}
+        options={{ title: t('Set Sight Adjustment') as string }}
       />
       <Stack.Screen
         name="PrivacyPolicy"

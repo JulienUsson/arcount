@@ -13,10 +13,10 @@ export function Dialog({ children, open, onClose }: Props) {
       animationType="slide"
       transparent={true}
       visible={open}
-      onRequestClose={onClose}
+      onRequestClose={() => onClose()}
       statusBarTranslucent
     >
-      <TouchableWithoutFeedback onPress={onClose}>
+      <TouchableWithoutFeedback onPress={() => onClose()}>
         <View
           className="w-full h-full items-center justify-center"
           style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
