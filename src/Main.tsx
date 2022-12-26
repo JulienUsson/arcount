@@ -6,6 +6,7 @@ import React from 'react'
 
 import Badge from './components/Badge'
 import MoreScreen from './screens/More'
+import PrivacyPolicyScreen from './screens/PrivacyPolicy'
 import ScoreCounterScreen from './screens/ScoreCounter'
 import ScoreHistory from './screens/ScoreHistory'
 import SessionScoreScreen from './screens/SessionScore'
@@ -15,6 +16,7 @@ import { useSessionStore } from './stores/sessionStore'
 export type RootStackParamList = {
   Main: undefined
   SightAdjustments: undefined
+  PrivacyPolicy: undefined
 }
 
 export type TabParamList = {
@@ -32,6 +34,7 @@ export default function Main() {
     <Stack.Navigator>
       <Stack.Screen name="Main" component={TabNavigator} options={{ header: () => null }} />
       <Stack.Screen name="SightAdjustments" component={SightAdjustmentsScreen} />
+      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicyScreen} />
     </Stack.Navigator>
   )
 }
