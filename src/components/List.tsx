@@ -22,7 +22,7 @@ export function ListItemButton({ icon, onPress, children }: ListItemButtonProps)
       <View className="py-4 border-b border-gray-100 relative">
         {icon && (
           <View className="absolute top-3 left-8">
-            <Icon name={icon} size={24} color="#6b7280" />
+            <Icon name={icon} size={24} color="#facc15" />
           </View>
         )}
         <Text className="text-center text-gray-700">{children}</Text>
