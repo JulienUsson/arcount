@@ -1,6 +1,7 @@
 {
   "name": "arcount",
-  "version": "1.0.3",
+  "version": "1.0.4",
+  "versionCode": "5",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -45,7 +46,7 @@
     "@types/lodash": "^4.14.191",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.41.0",
-    "eas-cli": "^2.5.1",
+    "eas-cli": "^3.1.1",
     "eslint": "^8.26.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
