@@ -26,7 +26,7 @@ module.exports = {
         backgroundColor: '#FFFFFF',
       },
       package: 'com.julienusson.arcount',
-      versionCode: pkg.versionCode,
+      versionCode: parseInt(pkg.versionCode),
     },
     extra: {
       eas: {
