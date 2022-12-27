@@ -1,6 +1,6 @@
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { range } from 'lodash'
+import _ from 'lodash'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Text, TouchableHighlight, View } from 'react-native'
@@ -11,11 +11,11 @@ import { useSightAdjustmentsStore } from '../stores/sightAdjustmentsStore'
 
 type Navigation = NativeStackScreenProps<RootStackParamList, 'SetSightAdjustment'>['navigation']
 
-const distances = [undefined, undefined, ...range(101), undefined, undefined]
+const distances = [undefined, undefined, ..._.range(101), undefined, undefined]
 const values = [
   undefined,
   undefined,
-  ...range(11).flatMap((i) => range(10).map((x) => i + x / 10)),
+  ..._.range(11).flatMap((i) => _.range(10).map((x) => i + x / 10)),
   undefined,
   undefined,
 ]

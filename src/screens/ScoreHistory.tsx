@@ -6,6 +6,7 @@ import {
 } from '@gorhom/bottom-sheet'
 import { FlashList } from '@shopify/flash-list'
 import { format } from 'date-fns'
+import _ from 'lodash'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { GestureResponderEvent, Text, View } from 'react-native'
@@ -113,13 +114,13 @@ function HistoryLine({ title, date, average, sum, max, onLongPress }: HistoryLin
           <Text className="font-light">{format(date, 'dd/MM/yyyy - HH:mm')}</Text>
         </View>
 
-        <View className="flex-row justify-around">
-          <Text className="font-bold  text-lg">
+        <View className="flex-row">
+          <Text className="flex-1 text-center font-bold text-lg">
             <Text className="font-light">{t('SUM')}</Text> {sum}
             <Text className="font-light">/{max}</Text>
           </Text>
 
-          <Text className="font-bold  text-lg">
+          <Text className="flex-1 text-center font-bold text-lg">
             <Text className="font-light">{t('AVG')}</Text> {average.toFixed(1)}
           </Text>
         </View>

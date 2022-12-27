@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { sortBy } from 'lodash'
+import _ from 'lodash'
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -20,7 +20,7 @@ export const useSightAdjustmentsStore = create<SightAdjustmentsState>()(
       adjustments: [],
       set: (adjustment) =>
         set(({ adjustments }) => ({
-          adjustments: sortBy(
+          adjustments: _.sortBy(
             [adjustment, ...adjustments.filter((adj) => adj.distance !== adjustment.distance)],
             (adjustment) => adjustment.distance,
           ),
