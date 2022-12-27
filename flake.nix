@@ -12,8 +12,10 @@
             allowUnfree = true;
           };
         };
-        node = pkgs.nodejs;
-        yarn = pkgs.yarn;
+        node = pkgs.nodejs-16_x;
+        yarn = pkgs.yarn.override {
+          nodejs = pkgs.nodejs-16_x;
+        };
       in
       {
         devShell = pkgs.mkShell {
